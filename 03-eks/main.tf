@@ -7,22 +7,22 @@ module "eks" {
 
   cluster_endpoint_public_access = true
 
-  vpc_id                   = data.aws_ssm_parameter.vpc_id
-  subnet_ids               = split(",", data.aws_ssm_parameter.private_subnet_ids)
-  control_plane_subnet_ids = split(",", data.aws_ssm_parameter.private_subnet_ids)
+  vpc_id                   = data.aws_ssm_parameter.vpc_id.value
+  subnet_ids               = split(",", data.aws_ssm_parameter.private_subnet_ids.value)
+  control_plane_subnet_ids = split(",", data.aws_ssm_parameter.private_subnet_ids.value)
 
   create_cluster_security_group = false
-  cluster_security_group_id     = data.aws_ssm_parameter.cluster_sg_id
+  cluster_security_group_id     = data.aws_ssm_parameter.cluster_sg_id.value
 
   create_node_security_group = false
-  node_security_group_id     = data.aws_ssm_parameter.node_sg_id
+  node_security_group_id     = data.aws_ssm_parameter.node_sg_id.value
 
   # the user which you used to create cluster will get admin access
   enable_cluster_creator_admin_permissions = true
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["m5.large"]
+    instance_types = ["t3.small"]
   }
 
   eks_managed_node_groups = {
